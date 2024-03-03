@@ -47,8 +47,8 @@ public class Constants {
 
   public static class Arm
   {
-    public static final int armLeftID = 20;
-    public static final int armRightID = 21;
+    public static final int armLeftID = 17;
+    public static final int armRightID = 18;
     public static final double armSpeed = 0.2;
     public static final boolean leftInvert = false; 
     public static final boolean rightInvert = true; 

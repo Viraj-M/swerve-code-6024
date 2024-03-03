@@ -24,7 +24,7 @@ public class RobotContainer {
 
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "JsonConstants"));
-  // private final  armSubystem armsubsystem = new armSubystem();
+  private final  armSubystem arm = new armSubystem();
   // private final shooterSubsystem shooter = new shooterSubsystem();
   private final intakeSubsystem intake = new intakeSubsystem();
   private final climberSubsystem climber = new climberSubsystem();
@@ -52,8 +52,8 @@ public class RobotContainer {
     driverXbox.x().whileTrue(new Align(drivebase));
     driverXbox.y().whileTrue(new intakeCmd(intake, 0.3));
 
-    driverXbox.leftBumper().whileTrue(new climberCmd(climber, Constants.Climber.climberSpeed));
-    driverXbox.rightBumper().whileTrue(new climberCmd(climber, -Constants.Climber.climberSpeed));
+    driverXbox.leftBumper().whileTrue(new armCmd(arm, 0.5));
+    driverXbox.rightBumper().whileTrue(new armCmd(arm, -0.5));
 
   }
 

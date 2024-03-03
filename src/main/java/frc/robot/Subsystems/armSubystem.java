@@ -7,6 +7,8 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 
@@ -23,6 +25,9 @@ public class armSubystem extends SubsystemBase {
   public armSubystem() {
     leftMotor.setInverted(Constants.Arm.leftInvert);
     rightMotor.setInverted(Constants.Arm.rightInvert);
+    leftMotor.setIdleMode(IdleMode.kBrake);
+    rightMotor.setIdleMode(IdleMode.kBrake);
+
   }
 
 
@@ -32,9 +37,9 @@ public class armSubystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setMotors(double leftSpeed, double rightSpeed) {
-    leftMotor.set(leftSpeed);
-    rightMotor.set(rightSpeed);
+  public void setMotors(double speed) {
+    leftMotor.set(speed);
+    rightMotor.set(speed);
   }
 
   public double getAbsoluteEncoder(){

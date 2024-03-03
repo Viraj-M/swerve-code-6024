@@ -7,14 +7,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class armCmd extends Command {
   private final armSubystem Arm;
-  private final double leftSpeed;
-  private final double rightSpeed;
-//   double LeftSpeed;
+  private final double speed;
+  //   double LeftSpeed;
 
-  public armCmd(armSubystem subsystem, double leftspeed, double rightspeed) {
+  public armCmd(armSubystem subsystem, double speed) {
     Arm = subsystem;
-    leftSpeed = leftspeed;
-    rightSpeed = rightspeed;
+    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -28,15 +26,15 @@ public class armCmd extends Command {
 
 @Override
 public void execute() {
-    //Arm.setMotors(leftSpeed, rightSpeed);
-    SmartDashboard.putNumber("rightspeed", rightSpeed);
-    SmartDashboard.putNumber("leftspeed", leftSpeed);
+    Arm.setMotors(speed);
+    // SmartDashboard.putNumber("rightspeed", rightSpeed);
+    // SmartDashboard.putNumber("leftspeed", leftSpeed);
   }
 
 
   @Override
   public void end(boolean interrupted) {
-    Arm.setMotors(0, 0);
+    Arm.setMotors(0);
   }
 
 
