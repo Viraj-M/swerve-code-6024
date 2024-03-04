@@ -12,6 +12,7 @@ import frc.robot.Subsystems.SwerveSubsystem;
 
 import java.util.List;
 
+import org.opencv.core.Mat;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -27,13 +28,11 @@ public class Align extends Command {
 
     private final SwerveSubsystem swerve;
     private final PIDController PIDang;
-    private final PIDController PIDmove;
     final PhotonCamera photonCamera = new PhotonCamera("cam");
 
     public Align(SwerveSubsystem swerve) {
         this.swerve = swerve;
-        this.PIDang = new PIDController(1, 0, 2);
-        this.PIDmove = new PIDController(1, 0, 2);
+        this.PIDang = new PIDController(1, 0, 0.1);
 
         addRequirements(swerve);
     }
@@ -41,7 +40,6 @@ public class Align extends Command {
     @Override
     public void initialize() {
         PIDang.reset();
-        PIDmove.reset();
         photonCamera.setPipelineIndex(0);
     }
 
@@ -49,6 +47,9 @@ public class Align extends Command {
     @Override
     public void execute() {
         // double ID = LimelightHelpers.getFiducialID("");
+
+        SmartDashboard.putNumber("called", 1);
+
         var result = photonCamera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         if (hasTargets) {
@@ -60,55 +61,48 @@ public class Align extends Command {
                     break;
                 }
             }
+        
 
-            SmartDashboard.putNumber("Tar id", target.getFiducialId());
-
-            if (target.getFiducialId() == 5 || target.getFiducialId() == 7) {
+            if (target.getFiducialId() == 5 || target.getFiducialId() == 7) {         
                 
-                double TX = target.getYaw();
-                double TY = target.getPitch();
+                SmartDashboard.putNumber("id", target.getFiducialId());
 
-                double ID = target.getFiducialId();
+                double TX = Math.toRadians(target.getYaw());
+                double TY = Math.toRadians(target.getPitch());
 
-                double d1, d2, d, r, a;
-                d1 = 0.307975;
-                // d2 = 0.1 / (Math.tan(Math.toRadians(TY)));
-                d2 = PhotonUtils.calculateDistanceToTargetMeters(
-                                    0,
-                                    0.1,
-                                    0,
-                                    Units.degreesToRadians(result.getBestTarget().getPitch()));
+                double at_height = 0.580, r_centre_cam = 0.420;
+                double at_cam = at_height/Math.tan(TY);
+                double r_centre_at = at_cam + r_centre_cam;
 
-                d = d1 + d2;
+                double lateral_distance = at_cam * Math.tan(TX);
+                double alpha = Math.tanh(lateral_distance/r_centre_at);
 
-                a = d2 * Math.tan(Units.degreesToRadians(TX));
+               
 
-                r = Math.tanh(a / d);
+
 
                 PIDang.setSetpoint(0);
-                PIDmove.setSetpoint(1);
 
-                double x = PIDmove.calculate(d2);
-                Double rot = PIDang.calculate(((r / 2 * Math.PI)));
-                Double y = 0.0;
+                double rot = PIDang.calculate(alpha);
     
                 // Command AlignSwerve = swerve.driveCommand(
                 //         () -> 1,
                 //         () -> 1,
                 //         () -> 1, true, false);
                 
-                swerve.drive(new Translation2d(0,y), rot, false);
+                swerve.drive(new Translation2d(0,0), rot, true);
                 
                 if (Constants.smartEnable) {
                     SmartDashboard.putNumber("TX", TX);
-                    SmartDashboard.putNumber("TY", TY);
+                    // SmartDashboard.putNumber("TY", TY);
 
-                    SmartDashboard.putNumber("d2", d2);
-                    SmartDashboard.putNumber("a", a);
+                    // SmartDashboard.putNumber("d2", d2);
+                    // SmartDashboard.putNumber("a", a);
 
-                    SmartDashboard.putNumber("x", x);
-                    SmartDashboard.putNumber("y", y);
+                    // SmartDashboard.putNumber("x", x);
+                    // SmartDashboard.putNumber("y", y);
                     SmartDashboard.putNumber("rot", rot);
+                    
                 }
             } else {
                 swerve.drive(new Translation2d(0, 0), 0, true);
@@ -119,14 +113,11 @@ public class Align extends Command {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-        swerve.drive(new Translation2d(0, 0), 0, true);
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        swerve.drive(new Translation2d(0, 0), 0, true);
         if (Constants.smartEnable) {
             SmartDashboard.putString("Status", "finished");
         }
