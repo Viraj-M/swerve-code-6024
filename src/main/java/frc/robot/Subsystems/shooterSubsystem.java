@@ -16,8 +16,8 @@ public class shooterSubsystem extends SubsystemBase {
     
     private final TalonSRX motor1 = new TalonSRX(Constants.Shooter.shooterLeftID);
     private final TalonSRX motor2 = new TalonSRX(Constants.Shooter.shooterRightID);
-    final SensorCollection sensor1 = motor1.getSensorCollection();
-    final SensorCollection sensor2 = motor2.getSensorCollection();
+    // final SensorCollection sensor1 = motor1.getSensorCollection();
+    // final SensorCollection sensor2 = motor2.getSensorCollection();
 
    
   /** Creates a new shooter. */
@@ -26,11 +26,11 @@ public class shooterSubsystem extends SubsystemBase {
     motor1.setInverted(Constants.Shooter.leftInvert);
     motor2.setInverted(Constants.Shooter.rightInvert);
 
-    motor1.setSelectedSensorPosition(sensor1.getPulseWidthPosition() & 0xFFF);
-    motor2.setSelectedSensorPosition(sensor1.getPulseWidthPosition() & 0xFFF);
+    // motor1.setSelectedSensorPosition(sensor1.getPulseWidthPosition() & 0xFFF);
+    // motor2.setSelectedSensorPosition(sensor1.getPulseWidthPosition() & 0xFFF);
     
-    motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-    motor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    // motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    // motor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
   }
 
 
@@ -40,25 +40,25 @@ public class shooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setMotors(double speed1, double speed2) {
-    motor1.set(ControlMode.PercentOutput, speed1);
-    motor2.set(ControlMode.PercentOutput, speed2);
+  public void setMotors(double speed) {
+    motor1.set(ControlMode.PercentOutput, speed);
+    motor2.set(ControlMode.PercentOutput, speed);
   }
 
-  public double getVelocity1(){
-    return sensor1.getPulseWidthVelocity();
-  }
+  // public double getVelocity1(){
+  //   return sensor1.getPulseWidthVelocity();
+  // }
 
-  public double getVelocity2(){
-    return sensor2.getPulseWidthVelocity();
-  }
+  // public double getVelocity2(){
+  //   return sensor2.getPulseWidthVelocity();
+  // }
 
-  public double getPosition1(){
-    return sensor1.getPulseWidthPosition();
-  }
+  // public double getPosition1(){
+  //   return sensor1.getPulseWidthPosition();
+  // }
 
-  public double getPosition2(){
-    return sensor2.getPulseWidthPosition();
-  }
+  // public double getPosition2(){
+  //   return sensor2.getPulseWidthPosition();
+  // }
 
 }

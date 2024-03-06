@@ -5,13 +5,13 @@
 package frc.robot.Commands;
 
 import frc.robot.Subsystems.intakeSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example Intake. */
 public class intakeCmd extends Command {
   private final intakeSubsystem Intake;
   private final double speed;
-//   double LeftSpeed;
 
   public intakeCmd(intakeSubsystem Intake, double speed) {
     this.Intake = Intake;
@@ -28,7 +28,8 @@ public class intakeCmd extends Command {
 
 @Override
 public void execute() {
-    Intake.setMotors(speed);
+  Intake.setMotors(speed);
+    
   }
 
 

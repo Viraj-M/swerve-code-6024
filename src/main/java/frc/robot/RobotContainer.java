@@ -25,7 +25,7 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "JsonConstants"));
   private final  armSubystem arm = new armSubystem();
-  // private final shooterSubsystem shooter = new shooterSubsystem();
+  private final shooterSubsystem shooter = new shooterSubsystem();
   private final intakeSubsystem intake = new intakeSubsystem();
   private final climberSubsystem climber = new climberSubsystem();
   final CommandXboxController driverXbox = new CommandXboxController(0);
@@ -33,7 +33,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     
-    // NamedCommands.registerCommand("armCmd", new armCmd(armsubsystem, 1, 1));
+    NamedCommands.registerCommand("intakeCmd", new intakeCmd(intake, 0.7));
     
     configureBindings();
 
@@ -43,22 +43,29 @@ public class RobotContainer {
         () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND), false, true);
 
     drivebase.setDefaultCommand(driveSwerve);
+
+
+    
+
+    
+    // intake.setDefaultCommand);
   }
 
   private void configureBindings() {
     //driverXbox.a().whileTrue(new Aim(drivebase, armsubsystem));
     // driverXbox.b().whileTrue(new shooterCmd(shooter, Constants.Shooter.shootSpeed));
+    driverXbox.a().whileTrue(new shooterCmd(shooter, 1));    
     driverXbox.b().whileTrue(Commands.runOnce(drivebase::zeroGyro));
     driverXbox.x().whileTrue(new Align(drivebase));
-    driverXbox.y().whileTrue(new intakeCmd(intake, 0.3));
+    driverXbox.y().whileTrue(new intakeCmd(intake, 0.6));
 
-    driverXbox.leftBumper().whileTrue(new armCmd(arm, 0.5));
-    driverXbox.rightBumper().whileTrue(new armCmd(arm, -0.5));
+    driverXbox.leftBumper().whileTrue(new armCmd(arm, 1));
+    driverXbox.rightBumper().whileTrue(new armCmd(arm, 1));
 
   }
 
   public Command getAutonomousCommand() {
-    return drivebase.getAutonomousCommand("Newauto");
+    return drivebase.getAutonomousCommand("Intake");
   }
 
   public void setMotorBrake(boolean brake) {

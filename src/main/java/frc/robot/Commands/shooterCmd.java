@@ -14,14 +14,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class shooterCmd extends Command {
   private final shooterSubsystem shooter;
   private final double velocity;
-  private final PIDController PID;
+  // private final PIDController PID;
 //   double LeftSpeed;
 
   public shooterCmd(shooterSubsystem shooter, double velocity) {
     this.shooter = shooter;
     this.velocity = velocity;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.PID = new PIDController(Constants.Shooter.kp, 0, Constants.Shooter.kd);
+    // this.PID = new PIDController(Constants.Shooter.kp, 0, Constants.Shooter.kd);
     addRequirements(shooter);
   }
 
@@ -34,20 +34,19 @@ public class shooterCmd extends Command {
 @Override
 public void execute() {
 
-  shooter.setMotors(PID.calculate(shooter.getVelocity1(), velocity), PID.calculate(shooter.getVelocity2(), velocity));
-
-  if(Constants.smartEnable){
-    SmartDashboard.putNumber("velocity1", shooter.getVelocity1());
-    SmartDashboard.putNumber("velocity2", shooter.getVelocity2());
-    SmartDashboard.putNumber("desired velocity", velocity);
-    
-  }
+  // shooter.setMotors(PID.calculate(shooter.getVelocity1(), velocity), PID.calculate(shooter.getVelocity2(), velocity));
+  shooter.setMotors(velocity);
+  // if(Constants.smartEnable){
+    // SmartDashboard.putNumber("velocity1", shooter.getVelocity1());
+    // SmartDashboard.putNumber("velocity2", shooter.getVelocity2());
+    // SmartDashboard.putNumber("desired velocity", velocity);
+  
   }
 
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setMotors(0,0);
+    shooter.setMotors(0);
   }
 
 

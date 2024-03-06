@@ -39,8 +39,7 @@ public class Constants {
   {
     public static int intakeLeftID = 15;
     public static int intakeRightID = 16;
-    public static double intakeSpeed = 0.2;
-    public static boolean leftInvert = true; 
+    public static boolean leftInvert = false; 
     public static boolean rightInvert = false; 
 
   }
@@ -59,10 +58,10 @@ public class Constants {
 
   public static class Shooter
   {
-    public static final int shooterLeftID = 25;
-    public static int shooterRightID = 26;
-    public static boolean leftInvert = false; 
-    public static boolean rightInvert = false; 
+    public static final int shooterLeftID = 19;
+    public static int shooterRightID = 20;
+    public static boolean leftInvert = true; 
+    public static boolean rightInvert = true; 
     public static double shootSpeed = 1;
     public static double kp = 0.001;
     public static double kd = 0.001;
