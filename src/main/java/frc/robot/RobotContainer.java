@@ -57,7 +57,7 @@ public class RobotContainer {
     driverXbox.a().whileTrue(new shooterCmd(shooter, 1));    
     driverXbox.b().whileTrue(Commands.runOnce(drivebase::zeroGyro));
     driverXbox.x().whileTrue(new Align(drivebase));
-    driverXbox.y().whileTrue(new intakeCmd(intake, 0.6));
+    driverXbox.y().whileTrue(new intakeCmd(intake, 0.2));
 
     driverXbox.leftBumper().whileTrue(new armCmd(arm, 1));
     driverXbox.rightBumper().whileTrue(new armCmd(arm, 1));
